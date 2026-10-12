@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Список покупок{% endblock %}
+{% block content %}
+<h1>Список покупок</h1>
+
+{% if plan %}
+<p class="meta">Для меню от {{ plan.created_at|date:"d.m.Y H:i" }}. Количества округлены вверх до целых.</p>
+{% regroup lines by ingredient.category as groups %}
+<div class="shopping">
+    {% for group in groups %}
+    <section class="card">
+        <h2>{{ group.grouper|default:"Прочее" }}</h2>
+        <ul class="shopping-items">
+            {% for line in group.list %}
+            <li><span>{{ line.ingredient.name }}</span> <strong>{{ line.quantity }} {{ line.ingredient.get_unit_display }}</strong></li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endfor %}
+</div>
+{% else %}
+<p>Сначала составьте меню: <a href="{% url 'planner:plan' %}">перейти к меню</a>.</p>
+{% endif %}
+{% endblock %}

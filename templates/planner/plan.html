@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Моё меню{% endblock %}
+{% block content %}
+<h1>Моё меню</h1>
+
+<form method="post" action="{% url 'planner:plan_create' %}">
+    {% csrf_token %}
+    <button class="btn" type="submit">{% if plan %}Составить заново{% else %}Составить меню{% endif %}</button>
+</form>
+
+{% if plan %}
+<p class="meta">План от {{ plan.created_at|date:"d.m.Y H:i" }} · бюджет {{ plan.budget_limit|floatformat:"-2" }} ₽</p>
+<ul class="meal-list">
+    {% for meal in plan.meals.all %}
+    <li class="meal">
+        <span class="meal-date">{{ meal.date|date:"D, d.m" }}</span>
+        <a href="{% url 'recipes:detail' meal.recipe.pk %}">{{ meal.recipe.title }}</a>
+        <span class="meta">{{ meal.recipe.prep_time }} мин · {{ meal.servings }} порц.</span>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>У вас пока нет меню. Нажмите «Составить меню».</p>
+{% endif %}
+{% endblock %}

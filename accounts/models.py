@@ -21,6 +21,13 @@ class Profile(models.Model):
         default=1,
         validators=[MinValueValidator(1)],
     )
+    excluded_ingredients = models.ManyToManyField(
+        'recipes.Ingredient',
+        verbose_name='Исключить ингредиенты',
+        blank=True,
+        related_name='excluded_by',
+        help_text='Рецепты с этими ингредиентами не попадут в меню.',
+    )
 
     def __str__(self):
         return f'Профиль {self.user.username}'

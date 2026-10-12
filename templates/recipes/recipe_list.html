@@ -2,6 +2,17 @@
 {% block title %}Рецепты{% endblock %}
 {% block content %}
 <h1>Рецепты</h1>
+{% if hidden_count %}
+<p class="notice">
+    Скрыто рецептов с исключёнными ингредиентами: {{ hidden_count }}.
+    <a href="?all=1">Показать все</a>
+</p>
+{% elif show_all and user.is_authenticated %}
+<p class="notice">
+    Показаны все рецепты, включая исключённые.
+    <a href="{% url 'recipes:list' %}">Применить мои исключения</a>
+</p>
+{% endif %}
 <section class="cards">
     {% for recipe in recipes %}
     <article class="card">
