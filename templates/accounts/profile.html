@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<section class="auth-card profile">
+    <div class="avatar">{{ user.username|first|upper }}</div>
+    <h1>{{ user.username }}</h1>
+    <p class="muted">С нами с {{ user.date_joined|date:"d.m.Y" }}</p>
+</section>
+{% endblock %}

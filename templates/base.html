@@ -11,7 +11,16 @@
     <header class="site-header">
         <a class="logo" href="{% url 'planner:home' %}">NutriPlan</a>
         <nav class="nav">
-            <a href="{% url 'planner:home' %}">Главная</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:profile' %}">Профиль</a>
+                <form method="post" action="{% url 'accounts:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Выйти</button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Вход</a>
+                <a href="{% url 'accounts:signup' %}">Регистрация</a>
+            {% endif %}
         </nav>
     </header>
 

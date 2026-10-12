@@ -66,6 +66,21 @@ body {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
+.nav form { margin: 0; }
+.nav button {
+    padding: 0.4rem 0.8rem;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    cursor: pointer;
+}
+.nav button:hover {
+    background: #eef4f0;
+    color: var(--primary);
+}
 .container {
     flex: 1;
     max-width: 900px;
@@ -124,4 +139,103 @@ body {
     .hero h1 {
         font-size: 1.5rem;
     }
+}
+
+/* Страницы авторизации и профиля */
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    margin: 2rem auto;
+    padding: 2rem 1.5rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+.auth-card h1 {
+    margin: 0 0 1.25rem;
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--primary);
+}
+.auth-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.auth-card form p {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin: 0 0 0.75rem;
+}
+.auth-card label {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.auth-card input {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #d5ddd8;
+    border-radius: 8px;
+    font: inherit;
+}
+.auth-card input:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+}
+.auth-card .helptext {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+.auth-card .helptext ul {
+    margin: 0.25rem 0 0;
+    padding-left: 1.1rem;
+}
+.errorlist {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.85rem;
+    color: #b3261e;
+}
+.btn {
+    padding: 0.7rem 1rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--primary);
+    color: #fff;
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+}
+.btn:hover {
+    opacity: 0.9;
+}
+.auth-alt,
+.muted {
+    margin: 1rem 0 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+.auth-alt a {
+    color: var(--primary);
+}
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 0.75rem;
+    border-radius: 50%;
+    background: #eef4f0;
+    color: var(--primary);
+    font-size: 1.75rem;
+    font-weight: 600;
 }
