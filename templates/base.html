@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}NutriPlan{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="logo" href="{% url 'planner:home' %}">NutriPlan</a>
+        <nav class="nav">
+            <a href="{% url 'planner:home' %}">Главная</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <p>Учебный проект. Приложение не заменяет консультацию врача.</p>
+    </footer>
+</body>
+</html>
