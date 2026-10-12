@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Рецепты{% endblock %}
+{% block content %}
+<h1>Рецепты</h1>
+<section class="cards">
+    {% for recipe in recipes %}
+    <article class="card">
+        <h2><a href="{% url 'recipes:detail' recipe.pk %}">{{ recipe.title }}</a></h2>
+        <p>{{ recipe.description|truncatechars:90 }}</p>
+        <p class="meta">{{ recipe.prep_time }} мин · {{ recipe.servings }} порц.</p>
+    </article>
+    {% empty %}
+    <p>Рецептов пока нет.</p>
+    {% endfor %}
+</section>
+{% endblock %}

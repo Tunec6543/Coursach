@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}{{ recipe.title }}{% endblock %}
+{% block content %}
+<article class="recipe">
+    <h1>{{ recipe.title }}</h1>
+    <p class="meta">{{ recipe.prep_time }} мин · на {{ recipe.servings }} порц.</p>
+    {% if recipe.description %}<p>{{ recipe.description }}</p>{% endif %}
+
+    <h2>Ингредиенты</h2>
+    <ul class="ingredients">
+        {% for item in recipe.items.all %}
+        <li>{{ item.ingredient.name }}: {{ item.quantity|floatformat:"-2" }} {{ item.ingredient.get_unit_display }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Приготовление</h2>
+    {{ recipe.instructions|linebreaks }}
+
+    <p><a href="{% url 'recipes:list' %}">← Все рецепты</a></p>
+</article>
+{% endblock %}

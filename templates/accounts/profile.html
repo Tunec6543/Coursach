@@ -5,5 +5,10 @@
     <div class="avatar">{{ user.username|first|upper }}</div>
     <h1>{{ user.username }}</h1>
     <p class="muted">С нами с {{ user.date_joined|date:"d.m.Y" }}</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn" type="submit">Сохранить</button>
+    </form>
 </section>
 {% endblock %}
