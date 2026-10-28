@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
+from recipes.models import Ingredient
 
 
 class Profile(models.Model):
@@ -28,6 +29,20 @@ class Profile(models.Model):
         related_name='excluded_by',
         help_text='Рецепты с этими ингредиентами не попадут в меню.',
     )
+    allergens = models.ManyToManyField(
+        'recipes.Allergen',
+        verbose_name='Аллергии',
+        blank=True,
+        related_name='profiles',
+        help_text='Рецепты с ингредиентами, содержащими эти аллергены, не попадут в меню.',
+    )
 
+    def blocked_ingredient_ids(self):
+        """Единый источник правды: id ингредиентов, которые пользователю нельзя."""
+        explicit = self.excluded_ingredients.values_list('id', flat=True)
+        by_allergen = Ingredient.objects.filter(
+            allergens__in=self.allergens.all()
+        ).values_list('id', flat=True)
+        return set(explicit) | set(by_allergen)
     def __str__(self):
         return f'Профиль {self.user.username}'

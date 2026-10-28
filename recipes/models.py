@@ -1,6 +1,17 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 
+class Allergen(models.Model):
+    name = models.CharField('Название', max_length=50, unique=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Аллерген'
+        verbose_name_plural = 'Аллергены'
+
+    def __str__(self):
+        return self.name
+
 
 class Ingredient(models.Model):
     UNIT_CHOICES = [
@@ -12,6 +23,13 @@ class Ingredient(models.Model):
     name = models.CharField('Название', max_length=100, unique=True)
     unit = models.CharField('Единица измерения', max_length=3, choices=UNIT_CHOICES, default='g')
     category = models.CharField('Категория', max_length=50, blank=True)
+
+    allergens = models.ManyToManyField(
+        Allergen,
+        verbose_name='Аллергены',
+        blank=True,
+        related_name='ingredients',
+    )
 
     class Meta:
         ordering = ['name']

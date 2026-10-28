@@ -6,7 +6,7 @@ from django.utils import timezone
 
 from accounts.models import Profile
 from recipes.models import Recipe
-
+from recipes.services import exclude_blocked
 from .models import MealPlan, PlannedMeal
 
 DAYS_IN_PLAN = 7
@@ -17,12 +17,9 @@ class NoSuitableRecipes(Exception):
 
 
 def get_suitable_recipes(profile):
-    """Рецепты с известным составом, без исключённых пользователем ингредиентов."""
+    """Рецепты с известным составом, без запрещённых профилем ингредиентов."""
     recipes = Recipe.objects.filter(items__isnull=False)
-    excluded = profile.excluded_ingredients.all()
-    if excluded.exists():
-        recipes = recipes.exclude(ingredients__in=excluded)
-    return list(recipes.distinct())
+    return list(exclude_blocked(recipes, profile).distinct())
 
 
 def pick_recipes(candidates, days, rng):

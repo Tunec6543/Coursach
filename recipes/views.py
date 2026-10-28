@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-
+from .services import exclude_blocked
 from .models import Recipe
 
 
@@ -11,11 +11,9 @@ def recipe_list(request):
     if request.user.is_authenticated and not show_all:
         profile = getattr(request.user, 'profile', None)
         if profile is not None:
-            excluded = profile.excluded_ingredients.all()
-            if excluded.exists():
-                filtered = recipes.exclude(ingredients__in=excluded).distinct()
-                hidden_count = recipes.count() - filtered.count()
-                recipes = filtered
+                    filtered = exclude_blocked(recipes, profile).distinct()
+                    hidden_count = recipes.count() - filtered.count()
+                    recipes = filtered
 
     return render(request, 'recipes/recipe_list.html', {
         'recipes': recipes,

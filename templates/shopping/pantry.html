@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Домашний запас{% endblock %}
+{% block content %}
+<section class="auth-card">
+    <h1>Домашний запас</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn" type="submit">Сохранить</button>
+    </form>
+    <p class="muted">Повторное сохранение продукта заменяет прежнее количество.</p>
+
+    <h2>Сейчас дома</h2>
+    <ul class="meal-list">
+        {% for item in items %}
+        <li class="pantry-item">
+            <span>{{ item.ingredient.name }}: <strong>{{ item.quantity|floatformat:"-2" }} {{ item.ingredient.get_unit_display }}</strong></span>
+            <form method="post" action="{% url 'shopping:pantry_delete' item.pk %}">
+                {% csrf_token %}
+                <button class="btn-link" type="submit">Удалить</button>
+            </form>
+        </li>
+        {% empty %}
+        <li class="muted">Пока ничего не указано.</li>
+        {% endfor %}
+    </ul>
+    <p class="auth-alt"><a href="{% url 'shopping:list' %}">К списку покупок</a></p>
+</section>
+{% endblock %}

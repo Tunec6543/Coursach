@@ -371,3 +371,34 @@ body::before {
     padding-bottom: 0.3rem;
     border-bottom: 1px dashed var(--border);
 }
+
+.hint {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+.pantry-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0.9rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+.btn-link {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.9rem;
+    color: #b3261e;
+    cursor: pointer;
+}
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+#id_excluded_ingredients → #id_excluded_ingredients, #id_allergens
+#id_excluded_ingredients label → #id_excluded_ingredients label, #id_allergens label

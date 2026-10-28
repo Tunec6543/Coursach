@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from recipes.models import Ingredient, Recipe, RecipeIngredient
+from recipes.models import Allergen, Ingredient, Recipe, RecipeIngredient
 
 # Название: (единица измерения, категория). Единицы: g, ml, pcs.
 INGREDIENTS = {
@@ -21,6 +21,17 @@ INGREDIENTS = {
     'Томатная паста': ('g', 'Соусы'),
     'Сахар': ('g', 'Бакалея'),
     'Соль': ('g', 'Специи'),
+}
+
+ALLERGENS = ['Молоко', 'Яйца', 'Глютен']
+
+# Демонстрационная разметка, не данные о реальных продуктах.
+INGREDIENT_ALLERGENS = {
+    'Молоко': ['Молоко'],
+    'Сливочное масло': ['Молоко'],
+    'Яйцо': ['Яйца'],
+    'Макароны': ['Глютен'],
+    'Овсяные хлопья': ['Глютен'],
 }
 
 # Количества указаны на число порций, записанное в рецепте.
@@ -103,7 +114,7 @@ RECIPES = [
 
 
 class Command(BaseCommand):
-    help = 'Загружает демонстрационные ингредиенты и рецепты. Повторный запуск безопасен.'
+    help = 'Загружает демонстрационные ингредиенты, аллергены и рецепты. Повторный запуск безопасен.'
 
     @transaction.atomic
     def handle(self, *args, **options):
@@ -114,6 +125,10 @@ class Command(BaseCommand):
                 defaults={'unit': unit, 'category': category},
             )
             ingredients[name] = obj
+
+        allergens = {name: Allergen.objects.get_or_create(name=name)[0] for name in ALLERGENS}
+        for name, allergen_names in INGREDIENT_ALLERGENS.items():
+            ingredients[name].allergens.set([allergens[n] for n in allergen_names])
 
         created_count = 0
         for data in RECIPES:
